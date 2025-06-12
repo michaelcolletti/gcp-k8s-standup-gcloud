@@ -1,0 +1,66 @@
+# values.yaml
+# This file defines the default values for the Helm chart's configurable options.
+# Users can override these values when installing the chart using --set or a custom values.yaml file.
+#
+# To install with custom values:
+# helm install my-release ./prometheus-operator-community -f my-custom-values.yaml
+#
+# To override specific values:
+# helm install my-release ./prometheus-operator-community --set operator.replicaCount=2
+
+operator:
+  # -- Number of Prometheus Operator replicas to deploy.
+  # For high availability, set to 2 or more.
+  replicaCount: 1
+
+  # -- Image repository and tag for the Prometheus Operator.
+  image:
+    repository: quay.io/prometheus-operator/prometheus-operator
+    # -- Specify the image tag. It's recommended to use a specific version.
+    tag: v0.70.0 # Match this with appVersion in Chart.yaml
+    # -- Image pull policy. Options: IfNotPresent, Always, Never.
+    pullPolicy: IfNotPresent
+
+  # -- Resource limits and requests for the Prometheus Operator container.
+  # Adjust these based on your cluster's capacity and expected workload.
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+
+  # -- Node selector for scheduling Prometheus Operator pods.
+  # Example:
+  # nodeSelector:
+  #   kubernetes.io/os: linux
+  nodeSelector: {}
+
+  # -- Tolerations for Prometheus Operator pods.
+  # Example:
+  # tolerations:
+  # - key: "node-role.kubernetes.io/master"
+  #   operator: "Exists"
+  #   effect: "NoSchedule"
+  tolerations: []
+
+  # -- SecurityContext for the Prometheus Operator pod.
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 65534 # nobody user
+
+serviceAccount:
+  # -- Specifies whether a service account should be created.
+  create: true
+  # -- The name of the service account to use.
+  # If not set and create is true, a name is generated using the full name.
+  # If not set and create is false, the default service account will be used.
+  name: ""
+
+# -- Kubernetes RBAC configuration for the Prometheus Operator.
+rbac:
+  # -- Specifies whether RBAC resources (ServiceAccount, ClusterRole, ClusterRoleBinding) should be created.
+  create: true
+
+# --- Templates for Kubernetes resources ---

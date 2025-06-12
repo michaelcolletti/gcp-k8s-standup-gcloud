@@ -13,7 +13,6 @@ echo "--- Setting up Environment Variables ---"
 # --- GCP Project and Location Settings ---
 # Replace with your GCP Project ID
 export GCP_PROJECT_ID=`gcloud config get-value project`
-# If you want to set a specific project, uncomment the line below and replace with your project ID"
 # Recommended region for your cluster (e.g., us-central1, europe-west1)
 export GCP_REGION="us-central1"
 # Specific zone within the region for node placement
@@ -26,7 +25,7 @@ export GKE_PUBLIC_NODE_POOL_NAME="public-nodes"
 # --- VM Configuration (Cheapest Available) ---
 # e2-micro is typically the cheapest machine type available on GKE.
 # It provides 2 vCPUs and 1 GB memory.
-export GKE_MACHINE_TYPE="e2-micro"
+export GKE_MACHINE_TYPE="e2-small"
 # Container-Optimized OS with containerd, recommended for GKE.
 export GKE_COS_IMAGE_TYPE="COS_CONTAINERD"
 # Number of nodes for the public node pool
@@ -38,9 +37,7 @@ export GKE_NUM_NODES_PUBLIC=1
 # --release-channel=regular: Recommended for production for balanced stability and features.
 # --logging=SYSTEM --monitoring=SYSTEM: Enables basic GKE system monitoring and logging.
 # Removed --enable-stackdriver-kubernetes as it conflicts with --logging and --monitoring.
-# --no-enable-autoupgrade --no-enable-autorepair: Disable auto-upgrades/repairs for instructional
-#                                                  purposes to maintain a stable state, but for
-#                                                  production, these should typically be enabled.
+# --enable-autoupgrade --enable-autorepair: Enabled for regular release channel as required by GKE.
 export GKE_CLUSTER_CREATE_FLAGS="\
   --project=${GCP_PROJECT_ID} \
   --region=${GCP_REGION} \
@@ -50,13 +47,14 @@ export GKE_CLUSTER_CREATE_FLAGS="\
   --image-type=${GKE_COS_IMAGE_TYPE} \
   --logging=SYSTEM \
   --monitoring=SYSTEM \
-  --no-enable-autoupgrade \
-  --no-enable-autorepair \
+  --enable-autoupgrade \
+  --enable-autorepair \
   --node-locations=${GCP_ZONE} \
   --cluster-version=latest" # Use 'latest' for convenience in instructional settings
 
 # --- Node Pool Creation Flags (Public Node Pool) ---
 # This node pool will have public IP addresses by default, as it's a standard GKE cluster.
+# --enable-autoupgrade --enable-autorepair: Enabled for regular release channel as required by GKE.
 export GKE_PUBLIC_NODE_POOL_FLAGS="\
   --cluster=${GKE_CLUSTER_NAME} \
   --project=${GCP_PROJECT_ID} \
@@ -64,8 +62,8 @@ export GKE_PUBLIC_NODE_POOL_FLAGS="\
   --machine-type=${GKE_MACHINE_TYPE} \
   --num-nodes=${GKE_NUM_NODES_PUBLIC} \
   --image-type=${GKE_COS_IMAGE_TYPE} \
-  --no-enable-autoupgrade \
-  --no-enable-autorepair \
+  --enable-autoupgrade \
+  --enable-autorepair \
   --node-locations=${GCP_ZONE}"
 
 echo "Environment variables set. Please verify GCP_PROJECT_ID: $GCP_PROJECT_ID"
