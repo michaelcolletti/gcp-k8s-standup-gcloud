@@ -1,4 +1,4 @@
- templates/deployment.yaml
+# templates/deployment.yaml
 # Defines the Kubernetes Deployment for the Prometheus Operator.
 apiVersion: apps/v1
 kind: Deployment
