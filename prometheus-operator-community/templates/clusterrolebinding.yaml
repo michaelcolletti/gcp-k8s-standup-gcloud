@@ -1,0 +1,16 @@
+# templates/clusterrolebinding.yaml
+# Binds the ClusterRole to the ServiceAccount, granting the necessary permissions.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "prometheus-operator-community.fullname" . }}
+  labels:
+    {{- include "prometheus-operator-community.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "prometheus-operator-community.fullname" . }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "prometheus-operator-community.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}

@@ -1,0 +1,7 @@
+# Chart.yaml
+# This file provides metadata about the Helm chart.
+apiVersion: v2
+name: prometheus-operator-community
+description: A Helm chart for deploying the community version of the Prometheus Operator.
+version: 0.1.0
+appVersion: "0.70.0" # This should match the version of Prometheus Operator you intend to deploy

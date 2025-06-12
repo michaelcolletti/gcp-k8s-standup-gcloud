@@ -19,7 +19,7 @@ export GCP_REGION="us-central1"
 export GCP_ZONE="us-central1-a"
 
 # --- GKE Cluster and Node Pool Names ---
-export GKE_CLUSTER_NAME="my-declarative-gke-cluster"
+export GKE_CLUSTER_NAME="my-awesome-gke-cluster"
 export GKE_PUBLIC_NODE_POOL_NAME="public-nodes"
 
 # --- VM Configuration (Cheapest Available) ---
@@ -43,7 +43,7 @@ export GKE_CLUSTER_CREATE_FLAGS="\
   --region=${GCP_REGION} \
   --release-channel=regular \
   --machine-type=${GKE_MACHINE_TYPE} \
-  --num-nodes=0 \
+  --num-nodes=1 \
   --image-type=${GKE_COS_IMAGE_TYPE} \
   --logging=SYSTEM \
   --monitoring=SYSTEM \
