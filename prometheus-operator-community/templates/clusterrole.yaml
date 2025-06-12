@@ -1,4 +1,4 @@
- templates/clusterrole.yaml
+# templates/clusterrole.yaml
 # Defines the Kubernetes ClusterRole with necessary permissions for the Prometheus Operator.
 # The Prometheus Operator needs broad permissions to manage Prometheus, Alertmanager,
 # ServiceMonitor, PodMonitor, etc., across the cluster.
