@@ -12,7 +12,8 @@ echo "--- Setting up Environment Variables ---"
 
 # --- GCP Project and Location Settings ---
 # Replace with your GCP Project ID
-export GCP_PROJECT_ID="your-gcp-project-id"
+export GCP_PROJECT_ID=`gcloud config get-value project`
+# If you want to set a specific project, uncomment the line below and replace with your project ID"
 # Recommended region for your cluster (e.g., us-central1, europe-west1)
 export GCP_REGION="us-central1"
 # Specific zone within the region for node placement
@@ -36,7 +37,7 @@ export GKE_NUM_NODES_PUBLIC=1
 # This allows us to define custom node pools separately.
 # --release-channel=regular: Recommended for production for balanced stability and features.
 # --logging=SYSTEM --monitoring=SYSTEM: Enables basic GKE system monitoring and logging.
-# --enable-stackdriver-kubernetes: Integrates with Google Cloud operations suite.
+# Removed --enable-stackdriver-kubernetes as it conflicts with --logging and --monitoring.
 # --no-enable-autoupgrade --no-enable-autorepair: Disable auto-upgrades/repairs for instructional
 #                                                  purposes to maintain a stable state, but for
 #                                                  production, these should typically be enabled.
@@ -49,7 +50,6 @@ export GKE_CLUSTER_CREATE_FLAGS="\
   --image-type=${GKE_COS_IMAGE_TYPE} \
   --logging=SYSTEM \
   --monitoring=SYSTEM \
-  --enable-stackdriver-kubernetes \
   --no-enable-autoupgrade \
   --no-enable-autorepair \
   --node-locations=${GCP_ZONE} \
@@ -74,6 +74,3 @@ echo "Node Pool Name: $GKE_PUBLIC_NODE_POOL_NAME"
 echo "Machine Type: $GKE_MACHINE_TYPE"
 echo "Region: $GCP_REGION"
 echo "Zone: $GCP_ZONE"
-
-2. Enable Necessary APIs (1-enable-apis.sh)
-GKE requires several Google Cloud APIs to be enabled in your project. Run this script to ensure they are activated.
